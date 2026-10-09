@@ -30,7 +30,20 @@ public class EnemyController : MonoBehaviour
         if (revTime > 0)
         {
             //テキストをみて完成させましょう
-
+            time += Time.deltaTime;
+            if (time >= revTime)
+            {
+                isToRight = !isToRight; //フラグを反転させる
+                time = 0;             //タイマーを初期化
+                if (isToRight)
+                {
+                    transform.localScale = new Vector2(-1, 1);//向きの反転
+                }
+                else
+                {
+                    transform.localScale = new Vector2(1, 1); //向きの変更
+                }
+            }
         }
     }
 
@@ -39,14 +52,37 @@ public class EnemyController : MonoBehaviour
         if (onGround)
         {
             //テキストをみて完成させましょう
+            //速度を更新する
+            //Rigidbody2Dを取ってくる
+            Rigidbody2D rbody= GetComponent<Rigidbody2D>();
+                if(isToRight)
+                { 
+                    rbody.linearVelocity= new Vector2(speed,rbody.linearVelocity.y);
+                }
+                else
+                {
+                    rbody.linearVelocity = new Vector2(-speed, rbody.linearVelocity.y);
+                }
+
 
         }
     }
 
     // 接触
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //テキストをみて完成させましょう
+        {
+            //テキストをみて完成させましょう
+            isToRight = !isToRight; //フラグを反転させる
+            time = 0;          //タイマーを初期化
+            if (isToRight)
+            {
+                transform.localScale = new Vector2(-1, 1); // 向きの変更
+            }
+            else
+            {
+                transform.localScale = new Vector2(1, 1);        // 向きの変更
+            }
+    }
+
 
     }
-}
